@@ -7,7 +7,8 @@ using namespace std;
 
 int main() {
     int choice;
-
+    int totalChecks = 0;
+    int successfulChecks = 0;
     cout << "\n===== WEBSITE UPTIME MONITOR =====\n";
 
     cout << "1. Check Website Status\n";
@@ -18,6 +19,7 @@ int main() {
     cin >> choice;
 
     if (choice == 1) {
+    
     string url;
     double milliseconds = 0.0;
     int httpCode = 0;
@@ -26,7 +28,11 @@ int main() {
     cin >> url;
 
     bool success = measureResponseTime(url, milliseconds, httpCode);
+    totalChecks++;
 
+    if (success) {
+        successfulChecks++;
+    }
     if (success) {
         cout << "Website status: UP\n";
         cout << "HTTP Code: " << httpCode << "\n";
@@ -34,6 +40,11 @@ int main() {
     } else {
         cout << "Website status: DOWN or request failed.\n";
     }
+    double uptime = calculateUptimePercentage(
+     totalChecks, successfulChecks
+);
+
+cout << "Uptime: " << uptime << "%\n";
 }
     else if (choice == 2) {
         cout << "Monitoring history selected.\n";
