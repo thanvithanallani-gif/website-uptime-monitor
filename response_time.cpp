@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -55,4 +56,15 @@ bool measureResponseTime(const std::string& url,
 
     return exitCode == 0 &&
            httpCode >= 100 && httpCode <= 599;
+}
+
+#include "response_time.h"
+
+double calculateResponseTimeMs(
+    std::chrono::steady_clock::time_point start,
+    std::chrono::steady_clock::time_point end
+) {
+    return std::chrono::duration<double, std::milli>(
+        end - start
+    ).count();
 }
