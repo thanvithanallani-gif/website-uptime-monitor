@@ -1,0 +1,15 @@
+Date and Time: Fri Oct 23 13:35:01 2026
+Website: https://example.com
+Status: UP
+Response Time: 2911.45 ms
+-----------------------------
+Date and Time: Fri Oct 23 13:35:03 2026
+Website: https://example.com
+Status: UP
+Response Time: 1630.05 ms
+-----------------------------
+Date and Time: Fri Oct 23 13:35:04 2026
+Website: https://example.com
+Status: UP
+Response Time: 1226.51 ms
+-----------------------------
