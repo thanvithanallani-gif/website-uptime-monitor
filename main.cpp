@@ -1,18 +1,20 @@
+
 #include <iostream>
 #include <string>
 #include "response_time.h"
 #include "uptime.h"
 #include "history.h"
+#include "monitoring_stats.h"
 
 using namespace std;
 
 int main() {
-    int choice;
 
-    int totalChecks = 0;
-    int successfulChecks = 0;
+    int choice;
+    MonitoringStats stats;
 
     do {
+
         cout << "\n===== WEBSITE UPTIME MONITOR =====\n";
         cout << "1. Check Website Status\n";
         cout << "2. View Monitoring History\n";
@@ -27,6 +29,7 @@ int main() {
         }
 
         if (choice == 1) {
+
             string url;
             double milliseconds = 0.0;
             int httpCode = 0;
@@ -34,43 +37,57 @@ int main() {
             cout << "Enter website URL: ";
             cin >> url;
 
-            bool success =
-                measureResponseTime(url, milliseconds, httpCode);
-
-            totalChecks++;
+            bool success = measureResponseTime(
+                url, milliseconds, httpCode
+            );
 
             string status;
 
             if (success) {
-                successfulChecks++;
+
                 status = "UP";
 
                 cout << "\nWebsite Status: UP\n";
-                cout << "HTTP Code: " << httpCode << "\n";
+                cout << "HTTP Code: " << httpCode << endl;
                 cout << "Response Time: "
                      << milliseconds << " ms\n";
-            } else {
+
+            }
+            else {
+
                 status = "DOWN";
 
                 cout << "\nWebsite Status: DOWN or request failed.\n";
             }
 
-            double uptime = calculateUptimePercentage(
-                totalChecks, successfulChecks
-            );
+            // Update monitoring statistics
+            stats.updateStats(status);
+
+            // Calculate uptime percentage
+            double uptime = stats.calculateUptime();
 
             cout << "Uptime (this session): "
                  << uptime << "%\n";
 
+            // Save website monitoring history
             saveHistory(url, status, milliseconds);
         }
+
         else if (choice == 2) {
+
             viewHistory();
         }
+
         else if (choice == 3) {
-            cout << "Exiting Website Uptime Monitor.\n";
+
+            cout << "\nExiting Website Uptime Monitor.\n";
+
+            // Display final monitoring report
+            stats.displayReport();
         }
+
         else {
+
             cout << "Invalid choice. Please select 1, 2, or 3.\n";
         }
 
